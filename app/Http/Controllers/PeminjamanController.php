@@ -1,0 +1,231 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\PeminjamanModel;
+use App\Models\PoliModel;
+use App\Models\RekamMedisModel;
+use Carbon\Carbon;
+use Exception;
+use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+
+class PeminjamanController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+        $search = $request->get('search');
+        $param['title'] = 'List Peminjaman';
+        $query = PeminjamanModel::with('pasien')->when($search,function($query) use ($search) {
+            $query->where('kode_peminjam','like','%'.$search.'%')
+                 ->orWhere('kode_peminjam','like','%'.$search.'%');
+        })->latest();
+        $param['data'] = $query->paginate(10);
+
+        $title = 'Delete Peminjaman!';
+        $text = "Are you sure you want to delete?";
+        $param['rekam_medis'] = RekamMedisModel::latest()->get();
+        confirmDelete($title, $text);
+        return view('peminjam.index',$param);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        // Rawat Jalan 1x24 jam
+        // Rawat Inap 2x24 jam
+        $validateData = Validator::make($request->all(),[
+            'no_rm' => 'required|not_in:0',
+            'nama_pinjam' => 'required',
+            'tgl_pinjam' => 'required',
+            'unit' => 'required',
+            'keperluan' => 'required',
+        ]);
+        if ($validateData->fails()) {
+            $html = "<ol class='max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400'>";
+            foreach($validateData->errors()->getMessages() as $error) {
+                $html .= "<li>$error[0]</li>";
+            }
+            $html .= "</ol>";
+
+            alert()->html('Terjadi kesalahan eror!', $html, 'error')->autoClose(5000);
+            return redirect()->route('peminjaman.index');
+        }
+        $tanggal = $request->get('tgl_pinjam');
+        $tanggal_pinjam = Carbon::parse($tanggal);
+
+        if ($request->get('unit') == 'rawat-inap') {
+            $tanggal_kembali = $tanggal_pinjam->addDays(2); // Rawat inap 2x24 jam
+        } else {
+            $tanggal_kembali = $tanggal_pinjam->addDays(1); // Rawat jalan 1x24 jam
+        }
+        try {
+            $tambah = new PeminjamanModel;
+            $tambah->kode_peminjam = $this->generateKode();
+            $tambah->id_rm = $request->get('no_rm');
+            $tambah->unit = $request->get('unit');
+            $tambah->tanggal_peminjaman = $tanggal_pinjam;
+            $tambah->keperluan = $request->get('keperluan');
+            $tambah->status_rm = 'pending';
+            $tambah->user_id = Auth::user()->id;
+            if ($request->get('unit') == 'rawat-inap') {
+                $tambah->tanggal_pengembalian = null;
+            }else{
+                $tambah->tanggal_pengembalian = $tanggal_kembali;
+            }
+            $tambah->status_pengembalian = 'pending';
+            $tambah->save();
+
+            alert()->success('Sukses','Berhasil menambahkan data.');
+            return redirect()->route('peminjaman.index');
+        } catch (Exception $e) {
+            alert()->error('Error','Terjadi Kesalahan');
+            return redirect()->route('peminjaman.index');
+        } catch (QueryException $e) {
+            alert()->error('Error','Terjadi Kesalahan');
+            return redirect()->route('peminjaman.index');
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        PeminjamanModel::find($id)->delete();
+        alert()->success('Sukses','Berhasil dihapus.');
+        return redirect()->route('peminjaman.index');
+    }
+
+    public function verifikasi(Request $request) {
+        try {
+            $verifikasi = PeminjamanModel::find($request->get('id'));
+            $verifikasi->status_rm = 'dipinjam';
+            $verifikasi->update();
+            alert()->success('Sukses','Berhasil verifikasi data.');
+            return redirect()->route('peminjaman.index');
+        } catch (Exception $e) {
+            alert()->error('Error','Terjadi Kesalahan');
+            return redirect()->route('peminjaman.index');
+        } catch (QueryException $e) {
+            alert()->error('Error','Terjadi Kesalahan');
+            return redirect()->route('peminjaman.index');
+        }
+    }
+
+    public function setTanggal(Request $request) {
+        $validateData = Validator::make($request->all(),[
+            'tanggal_kembali' => 'required',
+        ]);
+        if ($validateData->fails()) {
+            $html = "<ol class='max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400'>";
+            foreach($validateData->errors()->getMessages() as $error) {
+                $html .= "<li>$error[0]</li>";
+            }
+            $html .= "</ol>";
+
+            alert()->html('Terjadi kesalahan eror!', $html, 'error')->autoClose(5000);
+            return redirect()->route('peminjaman.index');
+        }
+        try {
+            $tanggal = $request->get('tanggal_kembali');
+            $tanggal_kembali = Carbon::parse($tanggal);
+
+            $set = PeminjamanModel::find($request->get('id'));
+            $set->status_rm = 'dipinjam';
+            $set->tanggal_pengembalian = $tanggal_kembali->addDays(2);
+            $set->update();
+
+            alert()->success('Sukses','Berhasil set tanggal peminjaman.');
+            return redirect()->route('peminjaman.index');
+        } catch (Exception $e) {
+            alert()->error('Error','Terjadi Kesalahan');
+            return redirect()->route('peminjaman.index');
+        } catch (QueryException $e) {
+            alert()->error('Error','Terjadi Kesalahan');
+            return redirect()->route('peminjaman.index');
+        }
+    }
+
+    public function kembali(Request $request) {
+        try {
+            $kembali = PeminjamanModel::find($request->get('id'));
+            $kembali->status_rm = 'tersedia';
+            $kembali->status_pengembalian = 'sukses';
+            $kembali->update();
+            alert()->success('Sukses','Berhasil pengembalian data.');
+            return redirect()->route('peminjaman.index');
+        } catch (Exception $e) {
+            alert()->error('Error','Terjadi Kesalahan');
+            return redirect()->route('peminjaman.index');
+        } catch (QueryException $e) {
+            alert()->error('Error','Terjadi Kesalahan');
+            return redirect()->route('peminjaman.index');
+        }
+    }
+
+    public function generateKode($length = 8)
+    {
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        $charactersLength = strlen($characters);
+        $kode = '';
+
+        // Generate random kode
+        for ($i = 0; $i < $length; $i++) {
+            $kode .= $characters[rand(0, $charactersLength - 1)];
+        }
+
+        // Check if kode already exists, if exists, regenerate kode
+        while ($this->kodeExists($kode)) {
+            $kode = '';
+            for ($i = 0; $i < $length; $i++) {
+                $kode .= $characters[rand(0, $charactersLength - 1)];
+            }
+        }
+
+        return $kode;
+    }
+    private function kodeExists($kode)
+    {
+        return PeminjamanModel::where('kode_peminjam', $kode)->exists();
+    }
+}
