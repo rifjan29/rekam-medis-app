@@ -29,11 +29,10 @@
                             <a href="{{ route('poli.index') }}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Poli</a>
                         </li>
                     @endif
-                    @if (Auth::user()->role == 'admin' || auth()->user()->role == 'petugas-rm')
                     <li>
                         <a href="{{ route('rekam-medis.index') }}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Rekam Medis</a>
                     </li>
-                    @endif
+
                 </ul>
            </li>
            {{-- peminjaman  --}}

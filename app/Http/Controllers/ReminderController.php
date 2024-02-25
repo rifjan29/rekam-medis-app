@@ -7,13 +7,20 @@ use App\Models\PoliModel;
 use App\Models\ReminderModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Twilio\Rest\Client;
 
 class ReminderController extends Controller
 {
     public function index(Request $request) {
         $param['title'] = 'List Data Reminder';
-        $param['data'] = ReminderModel::latest()->paginate(10);
+        $query = ReminderModel::latest();
+        if (Auth::user()->role == 'admin' || auth()->user()->role == 'petugas-rm'){
+            $param['data'] = $query->where('user_id',Auth::user()->id)->paginate(10);
+        }else{
+            $param['data'] = $query->paginate(10);
+
+        }
         return view('reminder.index',$param);
 
     }
