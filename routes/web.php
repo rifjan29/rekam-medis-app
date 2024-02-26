@@ -39,6 +39,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('search-medis',[RekamMedisController::class,'index'])->name('rekam-medis.search');
         Route::resource('rekam-medis',RekamMedisController::class);
         // Peminjaman
+        Route::get('cetak-tracer/{id}',[PeminjamanController::class,'cetakTracer'])->name('peminjaman.tracer');
         Route::get('search-peminjaman',[PeminjamanController::class,'index'])->name('peminjaman.search');
         Route::post('peminjaman/set-tanggal',[PeminjamanController::class,'setTanggal'])->name('peminjaman.set');
         Route::post('peminjaman/kembali',[PeminjamanController::class,'kembali'])->name('peminjaman.kembali');
