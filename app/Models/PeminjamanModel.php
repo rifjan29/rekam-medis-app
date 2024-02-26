@@ -17,6 +17,8 @@ class PeminjamanModel extends Model
         'status_pengembalian',
         'keperluan',
         'status_rm',
+        'poli_id',
+        'kamar',
         'user_id',
         'id_rm',
     ];
@@ -26,5 +28,8 @@ class PeminjamanModel extends Model
     }
     function user() {
         return $this->belongsTo(User::class,'user_id','id');
+    }
+    function poli() {
+        return $this->belongsTo(PoliModel::class,'poli_id','id');
     }
 }

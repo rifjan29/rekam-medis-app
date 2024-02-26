@@ -20,7 +20,6 @@
                         $('#show-modal #tempat').val(res.tempat_lahir);
                         $('#show-modal #tgl_lahir').val(res.tanggal_lahir);
                         $('#show-modal #no_hp').val(res.no_hp);
-                        $('#show-modal #unit_poli').val(res.poli_id);
                         $('#show-modal #jenis_kelamin').val(res.jenis_kelamin);
                         $('#show-modal #message').val(res.alamat);
 
@@ -48,7 +47,6 @@
                         $('#edit-modal #tempat').val(res.tempat_lahir);
                         $('#edit-modal #tgl_lahir').val(res.tanggal_lahir);
                         $('#edit-modal #no_hp').val(res.no_hp);
-                        $('#edit-modal #unit_poli').val(res.poli_id);
                         $('#edit-modal #jenis_kelamin').val(res.jenis_kelamin);
                         $('#edit-modal #message').val(res.alamat);
                         // Add more lines for other attributes

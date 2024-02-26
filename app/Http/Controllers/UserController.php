@@ -46,6 +46,7 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|unique:users,email',
             'password' => 'required',
+            'no_hp' => 'required',
             'roles' => 'required|not_in:0'
         ]);
 
@@ -64,6 +65,7 @@ class UserController extends Controller
             $tambah->name = $request->get('name');
             $tambah->email = $request->get('email');
             $tambah->role = $request->get('roles');
+            $tambah->no_hp = $request->get('no_hp');
             $tambah->password = Hash::make($request->get('password'));
             $tambah->save();
 

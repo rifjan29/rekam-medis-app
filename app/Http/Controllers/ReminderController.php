@@ -34,7 +34,11 @@ class ReminderController extends Controller
             $reminder = PeminjamanModel::with('pasien','user')->whereDate('tanggal_pengembalian','<',Carbon::today())->where('status_pengembalian','!=','sukses')->get();
             if (count($reminder) > 0) {
                 foreach ($reminder as $key => $value) {
-                    $poli = PoliModel::find($value->pasien->poli_id)->poli_name;
+                    if ($value->unit == 'rawat-inap') {
+                        $poli = $value->kamar;
+                    }else{
+                        $poli = PoliModel::find($value->poli_id)->poli_name;
+                    }
                     $update_status = PeminjamanModel::find($value->id);
                     $update_status->status_pengembalian = 'terlambat';
                     $update_status->update();

@@ -6,6 +6,19 @@
     @include('peminjam.modal.set')
     @push('js')
         <script>
+            $('#unit').on('change',function() {
+                let id = $(this).val();
+                console.log(id);
+                if (id != '0') {
+                    if (id == 'rawat-inap') {
+                        $('#kamar').removeClass('hidden');
+                        $('#data_poli').addClass('hidden');
+                    } else {
+                        $('#kamar').addClass('hidden');
+                        $('#data_poli').removeClass('hidden');
+                    }
+                }
+            })
             $('.verifikasi-modal').on('click',function() {
                 let id = $(this).data('id');
                 $('#verifikasi-modal #id').val(id)
@@ -183,7 +196,12 @@
                                             @endif
                                         </td>
                                         <td class="px-4 py-3">
-                                            {{ ucwords($item->unit) }}
+                                            {{ ucwords(str_replace('-',' ',ucwords($item->unit))) }}
+                                            @if ($item->unit == 'rawat-inap')
+                                                - {{ $item->kamar }}
+                                            @else
+                                                - {{ $item->poli?->poli_name }}
+                                            @endif
                                         </td>
                                         <td class="px-4 py-3">
                                             {{ ucwords($item->keperluan) }}
@@ -199,9 +217,14 @@
                                                     <li>
                                                         <a href="{{ route('peminjaman.destroy', $item->id) }}" data-confirm-delete="true" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
                                                     </li>
-                                                    <li>
-                                                        <a href="#" data-modal-target="kembali-modal" data-modal-toggle="kembali-modal" data-id="{{ $item->id }}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white kembali-modal">Pemngembalian Data</a>
-                                                    </li>
+                                                    @if (Auth::user()->role == 'petugas-rm')
+                                                        <li>
+                                                            <a href="#" data-modal-target="kembali-modal" data-modal-toggle="kembali-modal" data-id="{{ $item->id }}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white kembali-modal">Pengembalian Data</a>
+                                                        </li>
+
+                                                    @else
+
+                                                    @endif
                                                 </ul>
                                             </div>
                                         </td>

@@ -115,7 +115,7 @@
                                 <tr>
                                     <th class="px-4 py-3">No</th>
                                     <th scope="col" class="px-4 py-3">Nama </th>
-                                    <th scope="col" class="px-4 py-3">Email</th>
+                                    <th scope="col" class="px-4 py-3">Username</th>
                                     <th scope="col" class="px-4 py-3">No Hp</th>
                                     <th scope="col" class="px-4 py-3">Roles</th>
                                     <th scope="col" class="px-4 py-3">

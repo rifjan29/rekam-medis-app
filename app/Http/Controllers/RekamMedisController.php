@@ -52,7 +52,6 @@ class RekamMedisController extends Controller
             'tempat' => 'required',
             'tgl_lahir' => 'required',
             'no_hp' => 'required',
-            'unit_poli' => 'required|not_in:0',
             'jenis_kelamin' => 'required|not_in:0',
             'alamat' => 'required',
         ]);
@@ -77,7 +76,6 @@ class RekamMedisController extends Controller
             $tambah->alamat = $request->get('alamat');
             $tambah->jenis_kelamin = $request->get('jenis_kelamin');
             $tambah->user_id =Auth::user()->id;
-            $tambah->poli_id = $request->get('unit_poli');
             $tambah->save();
 
             alert()->success('Sukses','Berhasil menambahkan data.');
@@ -120,7 +118,6 @@ class RekamMedisController extends Controller
             'tempat' => 'required',
             'tgl_lahir' => 'required',
             'no_hp' => 'required',
-            'unit_poli' => 'required|not_in:0',
             'jenis_kelamin' => 'required|not_in:0',
             'alamat' => 'required',
         ]);
@@ -145,7 +142,6 @@ class RekamMedisController extends Controller
             $tambah->alamat = $request->get('alamat');
             $tambah->jenis_kelamin = $request->get('jenis_kelamin');
             $tambah->user_id =Auth::user()->id;
-            $tambah->poli_id = $request->get('unit_poli');
             $tambah->update();
 
             alert()->warning('Peringatan','Berhasil mengganti data.');

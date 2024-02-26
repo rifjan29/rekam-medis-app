@@ -18,6 +18,5 @@ class RekamMedisModel extends Model
         'alamat',
         'jenis_kelamin',
         'user_id',
-        'poli_id',
     ];
 }

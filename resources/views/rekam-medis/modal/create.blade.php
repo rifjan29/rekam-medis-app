@@ -42,15 +42,6 @@
                         </div>
 
                         <div class="col-span-2 sm:col-span-2">
-                            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Unit Poli</label>
-                            <select id="unit_poli" name="unit_poli" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option value="0">Pilih Unit Poli</option>
-                                @foreach ($poli as $item)
-                                    <option value="{{ $item->id }}">{{ $item->poli_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-span-2 sm:col-span-2">
                             <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis Kelamin</label>
                             <select id="jenis_kelamin" name="jenis_kelamin" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="0">Pilih Jenis Kelamin</option>
