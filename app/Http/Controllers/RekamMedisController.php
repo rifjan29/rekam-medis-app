@@ -81,9 +81,11 @@ class RekamMedisController extends Controller
             alert()->success('Sukses','Berhasil menambahkan data.');
             return redirect()->route('rekam-medis.index');
         } catch (Exception $th) {
+            return $th;
             alert()->error('Error','Terjadi Kesalahan');
             return redirect()->route('rekam-medis.index');
         } catch (QueryException $th) {
+            return $th;
             alert()->error('Error','Terjadi Kesalahan');
             return redirect()->route('rekam-medis.index');
         }

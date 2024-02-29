@@ -178,15 +178,25 @@
                                         <td class="px-4 py-3">
                                             @if ($item->status_rm == 'pending')
                                                 @if (Auth::user()->role == 'petugas-rm')
-                                                    <a href="#" data-modal-target="verifikasi-modal" data-modal-toggle="verifikasi-modal" data-id="{{ $item->id }}" class="bg-yellow-100 cursor-pointer text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300 verifikasi-modal">Verifikasi RM</a>
+                                                    @if ($item->is_verifikasi == 'petugas-rm')
+                                                        <a href="#" data-modal-target="verifikasi-modal" data-modal-toggle="verifikasi-modal" data-id="{{ $item->id }}" class="bg-yellow-100 cursor-pointer text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300 verifikasi-modal">Verifikasi RM</a>
+                                                    @else
+                                                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">Verifikasi RM</span>
+                                                    @endif
                                                 @else
-                                                    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">Verifikasi RM</span>
+                                                    @if ($item->is_verifikasi == 'petugas-peminjam')
+                                                        <a href="#" data-modal-target="verifikasi-modal" data-modal-toggle="verifikasi-modal" data-id="{{ $item->id }}" class="bg-yellow-100 cursor-pointer text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300 verifikasi-modal">Verifikasi RM</a>
+                                                    @else
+                                                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">Verifikasi RM</span>
+                                                    @endif
                                                 @endif
                                                 {{-- jika rawat inap set tangggal pulang  --}}
                                             @else
                                                 @if ($item->unit == 'rawat-inap')
                                                     @if ($item->tanggal_pengembalian == null)
-                                                        <a href="#" data-modal-target="settanggal-modal" data-modal-toggle="settanggal-modal" data-id="{{ $item->id }}" class="bg-yellow-100 cursor-pointer text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300 settanggal-modal">Set Tanggal Pulang</a>
+                                                        @if (Auth::user()->role == 'petugas-rm')
+                                                            <a href="#" data-modal-target="settanggal-modal" data-modal-toggle="settanggal-modal" data-id="{{ $item->id }}" class="bg-yellow-100 cursor-pointer text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300 settanggal-modal">Set Tanggal Pulang</a>
+                                                        @endif
                                                     @else
                                                         <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ ucwords($item->status_rm) }}</span>
                                                     @endif

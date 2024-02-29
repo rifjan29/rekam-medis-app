@@ -89,7 +89,9 @@ class PeminjamanController extends Controller
             $tambah->status_rm = 'pending';
             if (Auth::user()->role == 'petugas-rm') {
                 $tambah->user_id = $request->get('peminjam');
+                $tambah->is_verifikasi = 'petugas-peminjam';
             } else {
+                $tambah->is_verifikasi = 'petugas-rm';
                 $tambah->user_id = Auth::user()->id;
             }
             if ($request->get('unit') == 'rawat-inap') {

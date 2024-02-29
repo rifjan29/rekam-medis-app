@@ -21,6 +21,7 @@ class PeminjamanModel extends Model
         'kamar',
         'user_id',
         'id_rm',
+        'is_verifikasi',
     ];
 
     function pasien() {
