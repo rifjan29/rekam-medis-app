@@ -242,4 +242,10 @@ class PeminjamanController extends Controller
     {
         return PeminjamanModel::where('kode_peminjam', $kode)->exists();
     }
+
+    public function cetakTracer($id) {
+        $param['title'] = 'Cetak Tracer';
+        $param['data'] = PeminjamanModel::with('pasien','poli')->find($id);
+        return view('peminjam.cetak-tracer',$param);
+    }
 }
