@@ -48,10 +48,12 @@ Route::middleware(['auth'])->group(function () {
         // Reminder
         Route::get('reminder',[ReminderController::class,'index'])->name('reminder.index');
         Route::get('reminder/test',[ReminderController::class,'sendWhatsAppMessage'])->name('reminder.test');
-        //Laporan
-        Route::get('laporan/search',[LaporanController::class,'index'])->name('laporan.search');
-        Route::get('laporan',[LaporanController::class,'index'])->name('laporan.index');
-        Route::get('laporan/export',[LaporanController::class,'export'])->name('laporan.export');
+        Route::middleware(['auth','role:admin,petugas-rm'])->group(function () {
+            //Laporan
+            Route::get('laporan/search',[LaporanController::class,'index'])->name('laporan.search');
+            Route::get('laporan',[LaporanController::class,'index'])->name('laporan.index');
+            Route::get('laporan/export',[LaporanController::class,'export'])->name('laporan.export');
+        });
 
     });
 });

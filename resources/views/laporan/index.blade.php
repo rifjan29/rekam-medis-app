@@ -1,4 +1,11 @@
 <x-app-layout>
+    @push('js')
+        <script>
+            $('#kategori').on('change',function() {
+                $('#form').submit();
+            })
+        </script>
+    @endpush
     <div class="p-4 sm:ml-64">
         <div class="flex justify-between mt-20 p-4">
             <div>
@@ -34,7 +41,7 @@
                 <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-visible h-full z-0">
                     <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                         <div class="w-full md:w-1/2">
-                            <form class="flex items-center" action="{{ route('rekam-medis.search') }}" method="GET">
+                            <form class="flex items-center gap-3" action="{{ route('laporan.search') }}" id="form" method="GET">
                                 <label for="simple-search" class="sr-only">Search</label>
                                 <div class="relative w-full">
                                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -44,6 +51,12 @@
                                     </div>
                                     <input type="text" id="simple-search" name="search" value="{{ request('search') }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search" >
                                 </div>
+                                <select name="kategori" id="kategori" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option value="0">Pilih Status</option>
+                                    <option value="terlambat">Terlambat</option>
+                                    <option value="sukses">Tidak Terlambat</option>
+                                    <option value="pending">Pending</option>
+                                </select>
                             </form>
                         </div>
                         <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
@@ -67,6 +80,7 @@
                                     <th scope="col" class="px-4 py-3">Tanggal Peminjaman</th>
                                     <th scope="col" class="px-4 py-3">Tanggal Tenggat</th>
                                     <th scope="col" class="px-4 py-3">Status Peminjaman</th>
+                                    <th scope="col" class="px-4 py-3">Status Pengembalian</th>
                                     <th scope="col" class="px-4 py-3">Unit</th>
                                     <th scope="col" class="px-4 py-3">Keperluan</th>
 
@@ -100,6 +114,9 @@
                                                     <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ ucwords($item->status_rm) }}</span>
                                                 @endif
                                             @endif
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            {{ ucwords($item->status_pengembalian) }}
                                         </td>
                                         <td class="px-4 py-3">
                                             {{ ucwords($item->unit) }}
