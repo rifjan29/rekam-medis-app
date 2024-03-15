@@ -154,8 +154,7 @@
                                 <tr>
                                     <th class="px-4 py-3">No</th>
                                     <th scope="col" class="px-4 py-3">No RM </th>
-                                    <th scope="col" class="px-4 py-3">Nama Pasien</th>
-                                    <th scope="col" class="px-4 py-3">No Hp</th>
+                                    <th scope="col" class="px-4 py-3">Nama Petugas Peminjaman</th>
                                     <th scope="col" class="px-4 py-3">Tanggal Peminjaman</th>
                                     <th scope="col" class="px-4 py-3">Tanggal Tenggat</th>
                                     <th scope="col" class="px-4 py-3">Status Peminjaman</th>
@@ -171,8 +170,7 @@
                                     <tr class="border-b dark:border-gray-700">
                                         <td class="px-4 py-3">{{ $loop->iteration }}</td>
                                         <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ ucwords($item->pasien->no_rm) }}</th>
-                                        <td class="px-4 py-3">{{ $item->pasien->nama_pasien }}</td>
-                                        <td class="px-4 py-3">{{ $item->pasien->no_hp != null ? $item->pasien->no_hp : '-' }}</td>
+                                        <td class="px-4 py-3">{{ $item->user->name }}</td>
                                         <td class="px-4 py-3">{{ \Carbon\Carbon::parse($item->tanggal_peminjaman)->translatedFormat('d F Y') }}</td>
                                         <td class="px-4 py-3">{{ $item->tanggal_pengembalian != null ? \Carbon\Carbon::parse($item->tanggal_pengembalian)->translatedFormat('d F Y') : '-' }}</td>
                                         <td class="px-4 py-3">
@@ -230,7 +228,7 @@
                                                     <li>
                                                         <a href="{{ route('peminjaman.destroy', $item->id) }}" data-confirm-delete="true" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
                                                     </li>
-                                                    @if (Auth::user()->role == 'petugas-rm')
+                                                    @if (Auth::user()->role == 'petugas-rm' || Auth::user()->role == 'admin')
                                                         <li>
                                                             <a href="#" data-modal-target="kembali-modal" data-modal-toggle="kembali-modal" data-id="{{ $item->id }}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white kembali-modal">Pengembalian Data</a>
                                                         </li>

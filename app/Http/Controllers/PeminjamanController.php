@@ -22,7 +22,7 @@ class PeminjamanController extends Controller
     {
         $search = $request->get('search');
         $param['title'] = 'List Peminjaman';
-        $query = PeminjamanModel::with('pasien','poli')->when($search,function($query) use ($search) {
+        $query = PeminjamanModel::with('pasien','poli','user')->when($search,function($query) use ($search) {
             $query->where('kode_peminjam','like','%'.$search.'%')
                  ->orWhere('kode_peminjam','like','%'.$search.'%');
         })->latest();
@@ -203,9 +203,26 @@ class PeminjamanController extends Controller
     public function kembali(Request $request) {
         try {
             $kembali = PeminjamanModel::find($request->get('id'));
-            $kembali->status_rm = 'tersedia';
-            $kembali->status_pengembalian = 'sukses';
-            $kembali->update();
+            $tanggal = Carbon::now()->translatedFormat('Y-m-d');
+            if ($kembali->tanggal_pengembalian == null) {
+                alert()->warning('Sukses','Pengembalian gagal harap set tanggal pengembalian.');
+                return redirect()->route('peminjaman.index');
+            }
+            if ($tanggal >= Carbon::parse($kembali->tanggal_pengembalian)) {
+                $updateTerlambat = PeminjamanModel::find($request->get('id'));
+                $updateTerlambat->status_pengembalian = 'terlambat';
+                $updateTerlambat->status_rm = 'tersedia';
+                $updateTerlambat->status_rm = 'tersedia';
+                $updateTerlambat->status_pengembalian = 'sukses';
+                $updateTerlambat->update();
+            }else{
+                $updateSukses = PeminjamanModel::find($request->get('id'));
+                $updateSukses->status_pengembalian = 'sukses';
+                $updateSukses->status_rm = 'tersedia';
+                $updateSukses->status_rm = 'tersedia';
+                $updateSukses->status_pengembalian = 'sukses';
+                $updateSukses->update();
+            }
             alert()->success('Sukses','Berhasil pengembalian data.');
             return redirect()->route('peminjaman.index');
         } catch (Exception $e) {
@@ -247,5 +264,11 @@ class PeminjamanController extends Controller
         $param['title'] = 'Cetak Tracer';
         $param['data'] = PeminjamanModel::with('pasien','poli')->find($id);
         return view('peminjam.cetak-tracer',$param);
+    }
+
+    public function cetakTracerPdf($id){
+        $param['title'] = 'Cetak Tracer PDF     ';
+        $param['data'] = PeminjamanModel::with('pasien','poli')->find($id);
+        return view('peminjam.cetak-tracer-pdf',$param);
     }
 }

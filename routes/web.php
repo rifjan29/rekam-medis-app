@@ -40,6 +40,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('rekam-medis',RekamMedisController::class);
         // Peminjaman
         Route::get('cetak-tracer/{id}',[PeminjamanController::class,'cetakTracer'])->name('peminjaman.tracer');
+        Route::get('cetak-tracer-pdf/{id}',[PeminjamanController::class,'cetakTracerPdf'])->name('peminjaman.tracer-pdf');
         Route::get('search-peminjaman',[PeminjamanController::class,'index'])->name('peminjaman.search');
         Route::post('peminjaman/set-tanggal',[PeminjamanController::class,'setTanggal'])->name('peminjaman.set');
         Route::post('peminjaman/kembali',[PeminjamanController::class,'kembali'])->name('peminjaman.kembali');
@@ -47,7 +48,6 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('peminjaman',PeminjamanController::class);
         // Reminder
         Route::get('reminder',[ReminderController::class,'index'])->name('reminder.index');
-        Route::get('reminder/test',[ReminderController::class,'sendWhatsAppMessage'])->name('reminder.test');
         Route::middleware(['auth','role:admin,petugas-rm'])->group(function () {
             //Laporan
             Route::get('laporan/search',[LaporanController::class,'index'])->name('laporan.search');
@@ -57,6 +57,7 @@ Route::middleware(['auth'])->group(function () {
 
     });
 });
+Route::get('reminder/test',[ReminderController::class,'sendWhatsAppMessage'])->name('reminder.test');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
