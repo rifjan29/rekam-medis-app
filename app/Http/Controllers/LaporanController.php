@@ -12,7 +12,7 @@ class LaporanController extends Controller
         $search = $request->get('search');
         $kategori = $request->get('kategori');
         $param['title'] = 'List Laporan';
-        $query = PeminjamanModel::with('pasien')->when($search,function($query) use ($search) {
+        $query = PeminjamanModel::with('pasien','user')->when($search,function($query) use ($search) {
             $query
                  ->where('kode_peminjam','like','%'.$search.'%')
                  ->orWhere('kode_peminjam','like','%'.$search.'%')->latest();
@@ -27,7 +27,7 @@ class LaporanController extends Controller
     }
 
     public function export() {
-        $param['data'] = PeminjamanModel::with('pasien')->get();
+        $param['data'] = PeminjamanModel::with('pasien','user')->get();
         return view('laporan.pdf',$param);
     }
 
