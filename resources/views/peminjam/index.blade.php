@@ -199,10 +199,26 @@
 
                                                         @endif
                                                     @else
-                                                        <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ ucwords($item->status_rm) }}</span>
+                                                        @if (Auth::user()->role == 'petugas-rm')
+                                                            <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ ucwords($item->status_rm) }}</span>
+                                                        @else
+                                                            @if ($item->status_pengembalian == 'sukses')
+                                                                <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Tepat</span>
+                                                            @else
+                                                                <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Telat</span>
+                                                            @endif
+                                                        @endif
                                                     @endif
                                                 @else
-                                                    <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ ucwords($item->status_rm) }}</span>
+                                                    @if (Auth::user()->role == 'petugas-rm')
+                                                        <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ ucwords($item->status_rm) }}</span>
+                                                    @else
+                                                        @if ($item->status_pengembalian == 'sukses')
+                                                            <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Tepat</span>
+                                                        @else
+                                                            <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Telat</span>
+                                                        @endif
+                                                    @endif
                                                 @endif
                                             @endif
                                         </td>
@@ -229,9 +245,11 @@
                                                         <a href="{{ route('peminjaman.destroy', $item->id) }}" data-confirm-delete="true" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
                                                     </li>
                                                     @if (Auth::user()->role == 'petugas-rm' || Auth::user()->role == 'admin')
-                                                        <li>
-                                                            <a href="#" data-modal-target="kembali-modal" data-modal-toggle="kembali-modal" data-id="{{ $item->id }}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white kembali-modal">Pengembalian Data</a>
-                                                        </li>
+                                                        @if ($item->status_rm == 'dipinjam')
+                                                            <li>
+                                                                <a href="#" data-modal-target="kembali-modal" data-modal-toggle="kembali-modal" data-id="{{ $item->id }}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white kembali-modal">Pengembalian Data</a>
+                                                            </li>
+                                                        @endif
                                                         <li>
                                                             <a href="{{route('peminjaman.tracer',$item->id) }}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Cetak Tracer</a>
                                                         </li>

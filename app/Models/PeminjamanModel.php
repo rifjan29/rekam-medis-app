@@ -22,6 +22,7 @@ class PeminjamanModel extends Model
         'user_id',
         'id_rm',
         'is_verifikasi',
+        'verifikasi_tanggal',
     ];
 
     function pasien() {

@@ -153,10 +153,18 @@ class PeminjamanController extends Controller
     public function verifikasi(Request $request) {
         try {
             $verifikasi = PeminjamanModel::find($request->get('id'));
-            $verifikasi->status_rm = 'dipinjam';
-            $verifikasi->update();
-            alert()->success('Sukses','Berhasil verifikasi data.');
-            return redirect()->route('peminjaman.index');
+            $current_verifikasi = PeminjamanModel::where('id_rm',$verifikasi->id_rm)->where('status_rm','dipinjam')->get();
+            if (isset($current_verifikasi)) {
+                alert()->warning('Warning','Data masih dalam peminjaman.');
+                return redirect()->route('peminjaman.index');
+            }else{
+                $verifikasi = PeminjamanModel::find($request->get('id'));
+                $verifikasi->status_rm = 'dipinjam';
+                $verifikasi->update();
+                alert()->success('Sukses','Berhasil verifikasi data.');
+                return redirect()->route('peminjaman.index');
+            }
+
         } catch (Exception $e) {
             alert()->error('Error','Terjadi Kesalahan');
             return redirect()->route('peminjaman.index');
@@ -204,22 +212,24 @@ class PeminjamanController extends Controller
         try {
             $kembali = PeminjamanModel::find($request->get('id'));
             $tanggal = Carbon::now()->translatedFormat('Y-m-d');
-            if ($kembali->tanggal_pengembalian == null) {
-                alert()->warning('Sukses','Pengembalian gagal harap set tanggal pengembalian.');
-                return redirect()->route('peminjaman.index');
+            if ($kembali->unit == 'rawat-inap') {
+                if ($kembali->tanggal_pengembalian == null) {
+                    alert()->warning('gagal','Pengembalian gagal harap set tanggal pengembalian.');
+                    return redirect()->route('peminjaman.index');
+                }
             }
             if ($tanggal >= Carbon::parse($kembali->tanggal_pengembalian)) {
                 $updateTerlambat = PeminjamanModel::find($request->get('id'));
                 $updateTerlambat->status_pengembalian = 'terlambat';
                 $updateTerlambat->status_rm = 'tersedia';
-                $updateTerlambat->status_rm = 'tersedia';
+                $updateTerlambat->verifikasi_tanggal = $tanggal;
                 $updateTerlambat->status_pengembalian = 'sukses';
                 $updateTerlambat->update();
             }else{
                 $updateSukses = PeminjamanModel::find($request->get('id'));
                 $updateSukses->status_pengembalian = 'sukses';
                 $updateSukses->status_rm = 'tersedia';
-                $updateSukses->status_rm = 'tersedia';
+                $updateSukses->verifikasi_tanggal = $tanggal;
                 $updateSukses->status_pengembalian = 'sukses';
                 $updateSukses->update();
             }

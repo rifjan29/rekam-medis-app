@@ -80,7 +80,6 @@
                                     <th scope="col" class="px-4 py-3">Tanggal Peminjaman</th>
                                     <th scope="col" class="px-4 py-3">Tanggal Tenggat</th>
                                     <th scope="col" class="px-4 py-3">Status Peminjaman</th>
-                                    <th scope="col" class="px-4 py-3">Status Pengembalian</th>
                                     <th scope="col" class="px-4 py-3">Unit</th>
                                     <th scope="col" class="px-4 py-3">Keperluan</th>
 
@@ -108,16 +107,30 @@
                                                     @if ($item->tanggal_pengembalian == null)
                                                         <span class="bg-yellow-100 cursor-pointer text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300 settanggal-modal">Set Tanggal Pulang</span>
                                                     @else
-                                                        <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ ucwords($item->status_rm) }}</span>
+                                                        @if (Auth::user()->role == 'petugas-rm')
+                                                            <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ ucwords($item->status_rm) }}</span>
+                                                        @else
+                                                            @if ($item->status_pengembalian == 'sukses')
+                                                                <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Tepat</span>
+                                                            @else
+                                                                <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Telat</span>
+                                                            @endif
+                                                        @endif
                                                     @endif
                                                 @else
-                                                    <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ ucwords($item->status_rm) }}</span>
+                                                    @if (Auth::user()->role == 'petugas-rm')
+                                                        <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ ucwords($item->status_rm) }}</span>
+                                                    @else
+                                                        @if ($item->status_pengembalian == 'sukses')
+                                                            <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Tepat</span>
+                                                        @else
+                                                            <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Telat</span>
+                                                        @endif
+                                                    @endif
                                                 @endif
                                             @endif
                                         </td>
-                                        <td class="px-4 py-3">
-                                            {{ ucwords($item->status_pengembalian) }}
-                                        </td>
+
                                         <td class="px-4 py-3">
                                             {{ ucwords($item->unit) }}
                                         </td>
