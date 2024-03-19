@@ -154,9 +154,18 @@ class PeminjamanController extends Controller
         try {
             $verifikasi = PeminjamanModel::find($request->get('id'));
             $current_verifikasi = PeminjamanModel::where('id_rm',$verifikasi->id_rm)->where('status_rm','dipinjam')->get();
-            if (isset($current_verifikasi)) {
-                alert()->warning('Warning','Data masih dalam peminjaman.');
-                return redirect()->route('peminjaman.index');
+            $count_verifikasi = PeminjamanModel::where('id_rm',$verifikasi->id_rm)->where('status_rm','dipinjam')->count();
+            if ($count_verifikasi >= 2) {
+                if (isset($current_verifikasi)) {
+                    alert()->warning('Warning','Data masih dalam peminjaman.');
+                    return redirect()->route('peminjaman.index');
+                }else{
+                    $verifikasi = PeminjamanModel::find($request->get('id'));
+                    $verifikasi->status_rm = 'dipinjam';
+                    $verifikasi->update();
+                    alert()->success('Sukses','Berhasil verifikasi data.');
+                    return redirect()->route('peminjaman.index');
+                }
             }else{
                 $verifikasi = PeminjamanModel::find($request->get('id'));
                 $verifikasi->status_rm = 'dipinjam';
