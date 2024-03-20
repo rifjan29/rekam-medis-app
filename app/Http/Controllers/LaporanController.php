@@ -15,13 +15,13 @@ class LaporanController extends Controller
         $query = PeminjamanModel::with('pasien','user')->when($search,function($query) use ($search) {
             $query
                  ->where('kode_peminjam','like','%'.$search.'%')
-                 ->orWhere('kode_peminjam','like','%'.$search.'%')->latest();
+                 ->orWhere('kode_peminjam','like','%'.$search.'%');
         });
         if ($request->has('kategori')) {
 
-            $query->where('status_pengembalian',$kategori)->latest();
+            $query->where('status_pengembalian',$kategori);
         }
-        $param['data'] = $query->paginate(10);
+        $param['data'] = $query->orderBy('created_at','DESC')->paginate(10);
 
         return view('laporan.index',$param);
     }

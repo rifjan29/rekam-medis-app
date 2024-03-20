@@ -155,7 +155,8 @@ class PeminjamanController extends Controller
             $verifikasi = PeminjamanModel::find($request->get('id'));
             $current_verifikasi = PeminjamanModel::where('id_rm',$verifikasi->id_rm)->where('status_rm','dipinjam')->get();
             $count_verifikasi = PeminjamanModel::where('id_rm',$verifikasi->id_rm)->where('status_rm','dipinjam')->count();
-            if ($count_verifikasi >= 2) {
+            
+            if ($count_verifikasi >= 1) {
                 if (isset($current_verifikasi)) {
                     alert()->warning('Warning','Data masih dalam peminjaman.');
                     return redirect()->route('peminjaman.index');
@@ -227,20 +228,20 @@ class PeminjamanController extends Controller
                     return redirect()->route('peminjaman.index');
                 }
             }
-            if ($tanggal >= Carbon::parse($kembali->tanggal_pengembalian)) {
-                $updateTerlambat = PeminjamanModel::find($request->get('id'));
-                $updateTerlambat->status_pengembalian = 'terlambat';
-                $updateTerlambat->status_rm = 'tersedia';
-                $updateTerlambat->verifikasi_tanggal = $tanggal;
-                $updateTerlambat->status_pengembalian = 'sukses';
-                $updateTerlambat->update();
-            }else{
+            if ($tanggal == Carbon::parse($kembali->tanggal_pengembalian)) {
+                return 'telat';
                 $updateSukses = PeminjamanModel::find($request->get('id'));
                 $updateSukses->status_pengembalian = 'sukses';
                 $updateSukses->status_rm = 'tersedia';
                 $updateSukses->verifikasi_tanggal = $tanggal;
                 $updateSukses->status_pengembalian = 'sukses';
                 $updateSukses->update();
+            }else{
+                $updateTerlambat = PeminjamanModel::find($request->get('id'));
+                $updateTerlambat->status_pengembalian = 'terlambat';
+                $updateTerlambat->status_rm = 'tersedia';
+                $updateTerlambat->verifikasi_tanggal = $tanggal;
+                $updateTerlambat->update();
             }
             alert()->success('Sukses','Berhasil pengembalian data.');
             return redirect()->route('peminjaman.index');
