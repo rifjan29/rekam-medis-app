@@ -158,6 +158,7 @@
                                     <th scope="col" class="px-4 py-3">Tanggal Peminjaman</th>
                                     <th scope="col" class="px-4 py-3">Total Hari</th>
                                     <th scope="col" class="px-4 py-3">Tanggal Tenggat</th>
+                                    <th scope="col" class="px-4 py-3">Tanggal Pengembalian</th>
                                     <th scope="col" class="px-4 py-3">Status Peminjaman</th>
                                     <th scope="col" class="px-4 py-3">Unit</th>
                                     <th scope="col" class="px-4 py-3">Keperluan</th>
@@ -182,6 +183,7 @@
                                             {{ $total }}
                                         </td>
                                         <td class="px-4 py-3">{{ $item->tanggal_pengembalian != null ? \Carbon\Carbon::parse($item->tanggal_pengembalian)->translatedFormat('d F Y') : '-' }}</td>
+                                        <td class="px-4 py-3">{{ $item->verifikasi_tanggal != null ? \Carbon\Carbon::parse($item->verifikasi_tanggal)->translatedFormat('d F Y') : '-' }}</td>
                                         <td class="px-4 py-3">
                                             @if ($item->status_rm == 'pending')
                                                 @if (Auth::user()->role == 'petugas-rm')
@@ -208,26 +210,12 @@
 
                                                         @endif
                                                     @else
-                                                        @if (Auth::user()->role == 'petugas-rm')
-                                                            <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ ucwords($item->status_rm) }}</span>
-                                                        @else
-                                                            @if ($item->status_pengembalian == 'sukses')
-                                                                <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Tepat</span>
-                                                            @else
-                                                                <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Telat</span>
-                                                            @endif
-                                                        @endif
+                                                        <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ ucwords($item->status_rm) }}</span>
+                                                        
                                                     @endif
                                                 @else
-                                                    @if (Auth::user()->role == 'petugas-rm')
-                                                        <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ ucwords($item->status_rm) }}</span>
-                                                    @else
-                                                        @if ($item->status_pengembalian == 'sukses')
-                                                            <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Tepat</span>
-                                                        @else
-                                                            <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Telat</span>
-                                                        @endif
-                                                    @endif
+                                                    <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ ucwords($item->status_rm) }}</span>
+                                                    
                                                 @endif
                                             @endif
                                         </td>
