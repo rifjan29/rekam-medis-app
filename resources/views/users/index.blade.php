@@ -18,6 +18,7 @@
                         $('#show-modal #name').val(res.name);
                         $('#show-modal #email').val(res.email);
                         $('#show-modal #roles').val(res.role);
+                        $('#show-modal #poli').val(res.poli);
 
                         // Show the modal
                         $('#show-modal').removeClass('hidden');
@@ -42,6 +43,7 @@
                         $('#edit-modal #email').val(res.email);
                         $('#edit-modal #roles').val(res.role);
                         $('#edit-modal #no_hp').val(res.no_hp);
+                        $('#edit-modal #poli').val(res.poli);
                         // Add more lines for other attributes
 
                         // Show the modal

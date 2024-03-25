@@ -98,7 +98,12 @@ class PeminjamanController extends Controller
                 $tambah->tanggal_pengembalian = null;
                 $tambah->kamar = $request->get('kamar');
             }else{
-                $tambah->poli_id = $request->get('poli');
+                $poli_id = Auth::user()->poli_id;
+                if ($poli_id == null) {
+                    alert()->error('Ggal','Harap melengkapi Poli.');
+                    return redirect()->route('peminjaman.index');
+                }
+                $tambah->poli_id = $poli_id;
                 $tambah->tanggal_pengembalian = Carbon::parse($tanggal_kembali)->format('Y-m-d');
             }
             $tambah->status_pengembalian = 'pending';
@@ -155,7 +160,7 @@ class PeminjamanController extends Controller
             $verifikasi = PeminjamanModel::find($request->get('id'));
             $current_verifikasi = PeminjamanModel::where('id_rm',$verifikasi->id_rm)->where('status_rm','dipinjam')->get();
             $count_verifikasi = PeminjamanModel::where('id_rm',$verifikasi->id_rm)->where('status_rm','dipinjam')->count();
-            
+
             if ($count_verifikasi >= 1) {
                 if (isset($current_verifikasi)) {
                     alert()->warning('Warning','Data masih dalam peminjaman.');

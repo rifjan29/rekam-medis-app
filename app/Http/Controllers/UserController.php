@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PoliModel;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ class UserController extends Controller
     {
         $search = $request->get('search');
         $param['title'] = 'List User';
+        $param['poli'] = PoliModel::latest()->get();
         $query = User::when($search,function($query) use ($search) {
             $query->where('name','like','%'.$search.'%')
                  ->orWhere('email','like','%'.$search.'%');
@@ -47,7 +49,8 @@ class UserController extends Controller
             'email' => 'required|unique:users,email',
             'password' => 'required',
             'no_hp' => 'required',
-            'roles' => 'required|not_in:0'
+            'roles' => 'required|not_in:0',
+            'poli' => 'required|not_in:0',
         ]);
 
         if ($validateData->fails()) {
@@ -66,6 +69,7 @@ class UserController extends Controller
             $tambah->email = $request->get('email');
             $tambah->role = $request->get('roles');
             $tambah->no_hp = $request->get('no_hp');
+            $tambah->poli_id = $request->get('poli');
             $tambah->password = Hash::make($request->get('password'));
             $tambah->save();
 
@@ -105,7 +109,8 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required',
             'no_hp' => 'required',
-            'roles' => 'required|not_in:0'
+            'roles' => 'required|not_in:0',
+            'poli' => 'required|not_in:0'
         ]);
 
         if ($validateData->fails()) {
@@ -119,12 +124,13 @@ class UserController extends Controller
             return redirect()->route('user.index');
         }
         try {
-            $tambah = User::find($request->get('id'));
-            $tambah->name = $request->get('name');
-            $tambah->email = $request->get('email');
-            $tambah->role = $request->get('roles');
-            $tambah->no_hp = $request->get('no_hp');
-            $tambah->update();
+            $edit = User::find($request->get('id'));
+            $edit->name = $request->get('name');
+            $edit->email = $request->get('email');
+            $edit->role = $request->get('roles');
+            $edit->no_hp = $request->get('no_hp');
+            $edit->poli_id = $request->get('poli');
+            $edit->update();
 
             alert()->warning('Perhatian','Berhasil mengganti data.');
             return redirect()->route('user.index');
