@@ -22,11 +22,19 @@ class PeminjamanController extends Controller
     {
         $search = $request->get('search');
         $param['title'] = 'List Peminjaman';
-        $query = PeminjamanModel::with('pasien','poli','user')->when($search,function($query) use ($search) {
-            $query->where('kode_peminjam','like','%'.$search.'%')
-                 ->orWhere('kode_peminjam','like','%'.$search.'%');
-        })->latest();
-        $param['data'] = $query->paginate(10);
+        if (Auth::user()->role == 'admin') {
+            $query = PeminjamanModel::with('pasien','poli','user')->when($search,function($query) use ($search) {
+                $query->where('kode_peminjam','like','%'.$search.'%')
+                     ->orWhere('kode_peminjam','like','%'.$search.'%');
+            })->latest();
+        }else{
+
+            $query = PeminjamanModel::with('pasien','poli','user')->when($search,function($query) use ($search) {
+                $query->where('kode_peminjam','like','%'.$search.'%')
+                     ->orWhere('kode_peminjam','like','%'.$search.'%');
+            })->latest();
+        }
+               $param['data'] = $query->paginate(10);
         $title = 'Delete Peminjaman!';
         $text = "Are you sure you want to delete?";
         $param['users'] = User::where('role','petugas-peminjam')->get();

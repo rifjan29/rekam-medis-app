@@ -77,6 +77,7 @@
                                     <th scope="col" class="px-4 py-3">No RM </th>
                                     <th scope="col" class="px-4 py-3">Nama Peminjam</th>
                                     <th scope="col" class="px-4 py-3">Tanggal Peminjaman</th>
+                                    <th scope="col" class="px-4 py-3">Total Hari</th>
                                     <th scope="col" class="px-4 py-3">Tanggal Tenggat</th>
                                     <th scope="col" class="px-4 py-3">Tanggal Pengembalian</th>
                                     <th scope="col" class="px-4 py-3">Status Peminjaman</th>
@@ -92,6 +93,14 @@
                                         <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ ucwords($item->pasien->no_rm) }}</th>
                                         <td class="px-4 py-3">{{ $item->user != null ? $item->user->name : "-" }}</td>
                                         <td class="px-4 py-3">{{ \Carbon\Carbon::parse($item->tanggal_peminjaman)->translatedFormat('d F Y') }}</td>
+                                        <td class="px-4 py-3">
+                                            @php
+                                                $toDate = \Carbon\Carbon::parse($item->tanggal_peminjaman);
+                                                $endDate = \Carbon\Carbon::parse($item->tanggal_pengembalian != null ? \Carbon\Carbon::parse($item->tanggal_pengembalian) : \Carbon\Carbon::now());
+                                                $total = $toDate->diffInDays($endDate);
+                                            @endphp
+                                            {{ $total }}
+                                        </td>
                                         <td class="px-4 py-3">{{ $item->tanggal_pengembalian != null ? \Carbon\Carbon::parse($item->tanggal_pengembalian)->translatedFormat('d F Y') : '-' }}</td>
                                         <td class="px-4 py-3">{{ $item->verifikasi_tanggal != null ? \Carbon\Carbon::parse($item->verifikasi_tanggal)->translatedFormat('d F Y') : '-' }}</td>
                                         <td class="px-4 py-3">

@@ -16,6 +16,7 @@
                     success: (res) => {
                         // Assuming you have a modal with an ID 'show-modal'
                         $('#show-modal #name').val(res.name);
+                        $('#show-modal #nip').val(res.nip);
                         $('#show-modal #email').val(res.email);
                         $('#show-modal #roles').val(res.role);
                         $('#show-modal #poli').val(res.poli);
@@ -40,6 +41,7 @@
                         // Assuming you have a modal with an ID 'show-modal'
                         $('#edit-modal #id').val(res.id);
                         $('#edit-modal #name').val(res.name);
+                        $('#edit-modal #nip').val(res.nip);
                         $('#edit-modal #email').val(res.email);
                         $('#edit-modal #roles').val(res.role);
                         $('#edit-modal #no_hp').val(res.no_hp);
@@ -116,6 +118,7 @@
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     <th class="px-4 py-3">No</th>
+                                    <th scope="col" class="px-4 py-3">NIP </th>
                                     <th scope="col" class="px-4 py-3">Nama </th>
                                     <th scope="col" class="px-4 py-3">Username</th>
                                     <th scope="col" class="px-4 py-3">No Hp</th>
@@ -129,6 +132,7 @@
                                 @forelse ($data as $item)
                                     <tr class="border-b dark:border-gray-700">
                                         <td class="px-4 py-3">{{ $loop->iteration }}</td>
+                                        <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $item->nip != null ? $item->nip : '-' }}</th>
                                         <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ ucwords($item->name) }}</th>
                                         <td class="px-4 py-3">{{ $item->email }}</td>
                                         <td class="px-4 py-3">{{ $item->no_hp != null ? $item->no_hp : '-' }}</td>

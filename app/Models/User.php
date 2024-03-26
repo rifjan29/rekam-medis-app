@@ -24,6 +24,7 @@ class User extends Authenticatable
         'no_hp',
         'poli_id',
         'password',
+        'nip',
     ];
 
     /**

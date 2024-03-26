@@ -16,6 +16,11 @@
     <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
         @csrf
         @method('patch')
+        <div>
+            <x-input-label for="nip" :value="__('NIP')" />
+            <x-text-input id="nip" name="nip" type="text" class="mt-1 block w-full" :value="old('nip', $user->nip)" />
+            <x-input-error class="mt-2" :messages="$errors->get('nip')" />
+        </div>
 
         <div>
             <x-input-label for="name" :value="__('Name')" />

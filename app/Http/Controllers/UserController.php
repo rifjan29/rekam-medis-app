@@ -51,6 +51,7 @@ class UserController extends Controller
             'no_hp' => 'required',
             'roles' => 'required|not_in:0',
             'poli' => 'required|not_in:0',
+            'nip' => 'required|max:16',
         ]);
 
         if ($validateData->fails()) {
@@ -66,6 +67,7 @@ class UserController extends Controller
         try {
             $tambah = new User;
             $tambah->name = $request->get('name');
+            $tambah->nip = $request->get('nip');
             $tambah->email = $request->get('email');
             $tambah->role = $request->get('roles');
             $tambah->no_hp = $request->get('no_hp');
@@ -107,6 +109,7 @@ class UserController extends Controller
     {
         $validateData = Validator::make($request->all(),[
             'name' => 'required',
+            'nip' => 'required|max:16',
             'email' => 'required',
             'no_hp' => 'required',
             'roles' => 'required|not_in:0',
@@ -126,6 +129,7 @@ class UserController extends Controller
         try {
             $edit = User::find($request->get('id'));
             $edit->name = $request->get('name');
+            $edit->nip = $request->get('nip');
             $edit->email = $request->get('email');
             $edit->role = $request->get('roles');
             $edit->no_hp = $request->get('no_hp');
