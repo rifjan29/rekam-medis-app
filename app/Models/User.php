@@ -46,4 +46,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function poli() {
+        return $this->belongsTo(PoliModel::class,'poli_id');
+    }
 }

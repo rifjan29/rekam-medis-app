@@ -12,6 +12,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class PeminjamanController extends Controller
 {
@@ -45,6 +46,8 @@ class PeminjamanController extends Controller
             $param['rekam_medis'] = RekamMedisModel::latest()->get();
         }
         $param['poli'] = PoliModel::latest()->get();
+        $user = User::with('poli')->where('id',Auth::user()->id)->first();
+        $param['user'] = Str::slug($user->poli->poli_name);
         confirmDelete($title, $text);
         return view('peminjam.index',$param);
     }
@@ -64,10 +67,14 @@ class PeminjamanController extends Controller
     {
         // Rawat Jalan 1x24 jam
         // Rawat Inap 2x24 jam
+        $user = User::with('poli')->where('id',Auth::user()->id)->first();
+        if ($user->poli == null) {
+            alert()->error('Ggal','Harap melengkapi Poli.');
+            return redirect()->route('peminjaman.index');
+        }
         $validateData = Validator::make($request->all(),[
             'no_rm' => 'required|not_in:0',
             'tgl_pinjam' => 'required',
-            'unit' => 'required',
             'keperluan' => 'required',
         ]);
         if ($validateData->fails()) {
@@ -82,7 +89,8 @@ class PeminjamanController extends Controller
         }
         $tanggal = $request->get('tgl_pinjam');
         $tanggal_pinjam = Carbon::parse($tanggal);
-        if ($request->get('unit') == 'rawat-inap') {
+        $unit = Str::slug($user->poli->poli_name);
+        if ($unit == 'rawat-inap') {
             $tanggal_kembali = $tanggal_pinjam->addDays(2); // Rawat inap 2x24 jam
         } else {
             $tanggal_kembali = $tanggal_pinjam->addDays(1); // Rawat jalan 1x24 jam
@@ -91,7 +99,7 @@ class PeminjamanController extends Controller
             $tambah = new PeminjamanModel;
             $tambah->kode_peminjam = $this->generateKode();
             $tambah->id_rm = $request->get('no_rm');
-            $tambah->unit = $request->get('unit');
+            $tambah->unit = $unit == 'rawat-inap' ? 'rawat-inap' : 'rawat-jalan';
             $tambah->tanggal_peminjaman = Carbon::parse($tanggal)->format('Y-m-d');
             $tambah->keperluan = $request->get('keperluan');
             $tambah->status_rm = 'pending';
@@ -102,13 +110,13 @@ class PeminjamanController extends Controller
                 $tambah->is_verifikasi = 'petugas-rm';
                 $tambah->user_id = Auth::user()->id;
             }
-            if ($request->get('unit') == 'rawat-inap') {
+            if ($unit == 'rawat-inap') {
                 $tambah->tanggal_pengembalian = null;
                 $tambah->kamar = $request->get('kamar');
             }else{
                 $poli_id = Auth::user()->poli_id;
                 if ($poli_id == null) {
-                    alert()->error('Ggal','Harap melengkapi Poli.');
+                    alert()->error('Gagal','Harap melengkapi Poli.');
                     return redirect()->route('peminjaman.index');
                 }
                 $tambah->poli_id = $poli_id;
