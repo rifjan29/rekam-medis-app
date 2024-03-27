@@ -127,11 +127,9 @@ class PeminjamanController extends Controller
             alert()->success('Sukses','Berhasil menambahkan data.');
             return redirect()->route('peminjaman.index');
         } catch (Exception $e) {
-            return $e;
             alert()->error('Error','Terjadi Kesalahan');
             return redirect()->route('peminjaman.index');
         } catch (QueryException $e) {
-            return $e;
             alert()->error('Error','Terjadi Kesalahan');
             return redirect()->route('peminjaman.index');
         }
