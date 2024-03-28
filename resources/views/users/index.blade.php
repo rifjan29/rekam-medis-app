@@ -19,7 +19,7 @@
                         $('#show-modal #nip').val(res.nip);
                         $('#show-modal #email').val(res.email);
                         $('#show-modal #roles').val(res.role);
-                        $('#show-modal #poli').val(res.poli);
+                        $('#show-modal #poli').val(res.poli_id);
 
                         // Show the modal
                         $('#show-modal').removeClass('hidden');
