@@ -45,7 +45,7 @@
                         $('#edit-modal #email').val(res.email);
                         $('#edit-modal #roles').val(res.role);
                         $('#edit-modal #no_hp').val(res.no_hp);
-                        $('#edit-modal #poli').val(res.poli);
+                        $('#edit-modal #poli').val(res.poli_id);
                         // Add more lines for other attributes
 
                         // Show the modal
