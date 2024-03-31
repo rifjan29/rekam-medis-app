@@ -1,5 +1,6 @@
 <td class="px-4 py-3">{{ $loop->iteration }}</td>
 <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ ucwords($item->pasien->no_rm) }}</th>
+<th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ ucwords($item->pasien->nama_pasien) }}</th>
 <td class="px-4 py-3">{{ $item->user != null ? $item->user->name : "-" }}</td>
 <td class="px-4 py-3">{{ \Carbon\Carbon::parse($item->tanggal_peminjaman)->translatedFormat('d F Y') }}</td>
 
