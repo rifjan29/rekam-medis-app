@@ -47,7 +47,10 @@ class PeminjamanController extends Controller
         }
         $param['poli'] = PoliModel::latest()->get();
         $user = User::with('poli')->where('id',Auth::user()->id)->first();
-        $param['user'] = Str::slug($user->poli->poli_name);
+        $param['user'] = null;
+        if ($user->poli != null) {
+            $param['user'] = Str::slug($user->poli->poli_name);
+        }
         confirmDelete($title, $text);
         return view('peminjam.index',$param);
     }
@@ -106,8 +109,11 @@ class PeminjamanController extends Controller
             if (Auth::user()->role == 'petugas-rm') {
                 $tambah->user_id = $request->get('peminjam');
                 $tambah->is_verifikasi = 'petugas-peminjam';
-            } else {
+            } elseif (Auth::user()->role == 'petugas-peminjam') {
                 $tambah->is_verifikasi = 'petugas-rm';
+                $tambah->user_id = Auth::user()->id;
+            } else {
+                $tambah->is_verifikasi = 'admin';
                 $tambah->user_id = Auth::user()->id;
             }
             if ($unit == 'rawat-inap') {
