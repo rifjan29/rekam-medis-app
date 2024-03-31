@@ -33,7 +33,7 @@ class ReminderController extends Controller
 
             if (count($reminder) > 0) {
                 foreach ($reminder as $key => $value) {
-                    if ($value->status_pengembalian == 'terlambat' || $value->status_pengembalian == 'dipinjam') {
+                    if ($value->status_pengembalian == 'terlambat' || $value->status_pengembalian == 'pending') {
                         if ($value->status_rm == 'dipinjam') {
                             if ($value->unit == 'rawat-inap') {
                                 $poli = $value->kamar;
