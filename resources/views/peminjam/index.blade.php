@@ -153,6 +153,7 @@
                                 <tr>
                                     <th class="px-4 py-3">No</th>
                                     <th scope="col" class="px-4 py-3">No RM </th>
+                                    <th scope="col" class="px-4 py-3">Nama Pasien </th>
                                     <th scope="col" class="px-4 py-3">Nama Petugas Peminjaman</th>
                                     <th scope="col" class="px-4 py-3">Tanggal Peminjaman</th>
                                     <th scope="col" class="px-4 py-3">Tanggal Tenggat</th>
