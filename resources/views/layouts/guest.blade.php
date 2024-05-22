@@ -15,29 +15,29 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased">
-        
-    <section style="background-image: url('{{ asset('bag.jpeg') }}')" class="relative bg-no-repeat bg-center bg-cover bg-fixed overflow-hidden">
-    <div class="h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 z-50">
-        
-        <div class="w-full sm:max-w-md px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg z-50">
-            <div class="mb-2 flex flex-col">
-                <span class="font-bold text-3xl text-center">Dinas Kabupaten Situbondo</span>
-                <span class="font-bold text-2xl text-center">Puskesmas Arjasa</span>
-                <hr class="border">
-                <div class="mt-3">
-                    <a href="/" class="mx-auto">
-                        <span class="font-bold text-2xl text-center">SIMPEPE</span><br>
-                    </a>
-                    <p>Selamat Datang, Silahkan Login terlebih dahulu</p><br>
-                </div>
-                <hr class="border">
-            </div>
-            {!! $slot !!}
-        </div>
-    </div>
-    <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-10 -z-1" style="backdrop-filter: blur(6px);"></div>
-</section>
 
-       
+    <section style="background-image: url('{{ asset('bag.jpeg') }}')" class="relative bg-no-repeat bg-center bg-cover bg-fixed overflow-hidden">
+        <div class="h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 z-50">
+
+            <div class="w-full sm:max-w-md px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg z-50">
+                <div class="mb-2 flex flex-col">
+                    <span class="font-bold text-3xl text-center">Dinas Kabupaten Situbondo</span>
+                    <span class="font-bold text-2xl text-center">Puskesmas Arjasa</span>
+                    <hr class="border">
+                    <div class="mt-3">
+                        <a href="/" class="mx-auto">
+                            <span class="font-bold text-2xl text-center">SIMPEPE</span><br>
+                        </a>
+                        <p>Selamat Datang, Silahkan Login terlebih dahulu</p><br>
+                    </div>
+                    <hr class="border">
+                </div>
+                {!! $slot !!}
+            </div>
+        </div>
+        <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-10 -z-1" style="backdrop-filter: blur(6px);"></div>
+    </section>
+
+
     </body>
 </html>

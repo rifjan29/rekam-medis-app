@@ -11,25 +11,23 @@
         <a href="#" data-modal-target="verifikasi-modal" data-modal-toggle="verifikasi-modal" data-id="{{ $item->id }}" class="bg-yellow-100 cursor-pointer text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300 verifikasi-modal">Verifikasi RM</a>
 
     @else
-        @if ($item->unit == 'rawat-inap')
-            @if ($item->tanggal_pengembalian == null)
-                <a href="#" data-modal-target="settanggal-modal" data-modal-toggle="settanggal-modal" data-id="{{ $item->id }}" class="bg-yellow-100 cursor-pointer text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300 settanggal-modal">Set Tanggal Pulang</a>
+        @if ($item->unit_default == 'igd')
+            @if ($item->unit == 'rawat-inap')
+                @if ($item->tanggal_pengembalian == null)
+                    <a href="#" data-modal-target="settanggal-modal" data-modal-toggle="settanggal-modal" data-id="{{ $item->id }}" class="bg-yellow-100 cursor-pointer text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300 settanggal-modal">Set Tanggal Pulang</a>
+                @else
+                    <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ ucwords($item->status_rm) }}</span>
+                @endif
             @else
-                <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ ucwords($item->status_rm) }}</span>
+            <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ ucwords($item->status_rm) }}</span>
             @endif
         @else
             <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ ucwords($item->status_rm) }}</span>
-
         @endif
     @endif
 </td>
 <td class="px-4 py-3">
-    {{ ucwords(str_replace('-',' ',ucwords($item->unit))) }}
-    @if ($item->unit == 'rawat-inap')
-        - {{ $item->kamar }}
-    @else
-        - {{ $item->poli?->poli_name }}
-    @endif
+   {{ $item->unit_default != null ? $item->unit_default : '-' }} - {{ $item->unit != null ? $item->unit : '' }}
 </td>
 <td class="px-4 py-3">
     {{ ucwords($item->keperluan) }}
@@ -53,6 +51,9 @@
                 @endif
                 <li>
                     <a href="{{route('peminjaman.tracer',$item->id) }}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Cetak Tracer</a>
+                </li>
+                <li>
+                    <a href="#" data-modal-target="edit-modal" data-modal-toggle="edit-modal" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white edit-data" data-id="{{ $item->id }}">Edit</a>
                 </li>
             @else
 

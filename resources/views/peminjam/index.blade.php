@@ -1,21 +1,76 @@
 <x-app-layout>
     @include('peminjam.modal.create')
+    @include('peminjam.modal.edit')
     @include('peminjam.modal.show')
     @include('peminjam.modal.verifikasi')
     @include('peminjam.modal.kembali')
     @include('peminjam.modal.set')
+    @push('css')
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <style>
+            .select2-container--default .select2-selection--single {
+                border-radius: 0.35rem !important;
+                border: 1px solid #d1d3e2;
+                height: calc(1.95rem + 10px);
+                background: #fff;
+                width: 100%
+            }
+
+            .select2-container--default .select2-selection--single:hover,
+            .select2-container--default .select2-selection--single:focus,
+            .select2-container--default .select2-selection--single.active {
+                box-shadow: none;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__rendered {
+                line-height: 40px;
+
+            }
+
+            .select2-container--default .select2-selection--multiple {
+                border-color: #eaeaea;
+                border-radius: 0;
+            }
+
+            .select2-dropdown {
+                border-radius: 0;
+            }
+
+            .select2-container--default .select2-results__option--highlighted[aria-selected] {
+                background-color: #3838eb;
+            }
+
+            .select2-container--default.select2-container--focus .select2-selection--multiple {
+                border-color: #eaeaea;
+                background: #fff;
+
+            }
+            .select2-container--default .select2-selection--single .select2-selection__arrow{
+                top: 5px;
+            }
+        </style>
+    @endpush
     @push('js')
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script>
-            $('#unit').on('change',function() {
+            var selectDate = $(".select-date");
+            selectDate.select2({
+                dropdownParent: $('#tambah-modal'),
+                width: '100%',
+                placeholder: "Pilih No. RM",
+                allowClear: true,
+
+            });
+            $('.unit_igd').addClass('hidden');
+            $('.unit').on('change',function() {
                 let id = $(this).val();
                 console.log(id);
                 if (id != '0') {
-                    if (id == 'rawat-inap') {
-                        $('#kamar').removeClass('hidden');
-                        $('#data_poli').addClass('hidden');
+                    if (id == 'igd') {
+                        $('.unit_igd').removeClass('hidden');
+
                     } else {
-                        $('#kamar').addClass('hidden');
-                        $('#data_poli').removeClass('hidden');
+                        $('.unit_igd').addClass('hidden');
                     }
                 }
             })
@@ -34,61 +89,43 @@
                 $(`#settanggal-modal #id`).val(id);
                 $(`#settanggal-modal`).removeClass('hidden')
             })
-            // show
-            $('.show-data').on('click',function() {
-                let id = $(this).data('id');
-                $.ajax({
-                    url: `{{ route('peminjaman.show', 1) }}`,
-                    data: {
-                        id: id
-                    },
-                    method: "GET",
-                    success: (res) => {
-                        // Assuming you have a modal with an ID 'show-modal'
-                        $('#show-modal #no_rm').val(res.no_rm);
-                        $('#show-modal #name').val(res.nama_pasien);
-                        $('#show-modal #tempat').val(res.tempat_lahir);
-                        $('#show-modal #tgl_lahir').val(res.tanggal_lahir);
-                        $('#show-modal #no_hp').val(res.no_hp);
-                        $('#show-modal #unit_poli').val(res.poli_id);
-                        $('#show-modal #jenis_kelamin').val(res.jenis_kelamin);
-                        $('#show-modal #message').val(res.alamat);
-
-                        // Show the modal
-                        $('#show-modal').removeClass('hidden');
-
-                    }
-                })
-            })
             // edit
             $('.edit-data').on('click',function() {
                 let id = $(this).data('id');
                 $.ajax({
-                    url: `{{ route('rekam-medis.edit', 1) }}`,
+                    url: `{{ route('peminjaman.edit', 1) }}`,
                     data: {
                         id: id
                     },
                     method: "GET",
                     success: (res) => {
                         console.log(res);
-                        // Assuming you have a modal with an ID 'show-modal'
+                        // // Assuming you have a modal with an ID 'show-modal'
                         $('#edit-modal #id').val(res.id);
-                        $('#edit-modal #no_rm').val(res.no_rm);
-                        $('#edit-modal #name').val(res.nama_pasien);
-                        $('#edit-modal #tempat').val(res.tempat_lahir);
-                        $('#edit-modal #tgl_lahir').val(res.tanggal_lahir);
-                        $('#edit-modal #no_hp').val(res.no_hp);
-                        $('#edit-modal #unit_poli').val(res.poli_id);
-                        $('#edit-modal #jenis_kelamin').val(res.jenis_kelamin);
-                        $('#edit-modal #message').val(res.alamat);
-                        // Add more lines for other attributes
+                        $('#edit-modal #no_rm').val(res.id_rm);
+                        $('#edit-modal #peminjam').val(res.user_id);
+                        $('#edit-modal #nama_pinjam').val(res.user.name);
+                        $('#edit-modal #tgl_pinjam').val(res.tanggal_peminjaman);
+                        $('#edit-modal #unit').val(res.unit_default);
+                        $('#edit-modal #keperluan').val(res.keperluan);
+                        var unit_default = res.unit_default;
+                        if (unit_default == 'igd') {
+                            $('.unit_igd').removeClass('hidden');
+                            $('#edit-modal #unit_test').val(res.unit);
 
-                        // Show the modal
+                        }else{
+                            $('.unit_igd').addClass('hidden');
+                            $('#edit-modal #unit_test').val();
+
+                        }
+
+                        // // Show the modal
                         $('#edit-modal').removeClass('hidden');
 
                     }
                 })
             })
+
         </script>
     @endpush
     <div class="p-4 sm:ml-64">

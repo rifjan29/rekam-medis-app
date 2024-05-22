@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('peminjaman', function (Blueprint $table) {
             $table->id();
             $table->string('kode_peminjam');
-            $table->enum('unit',['rawat-inap','rawat-jalan']);
+            $table->enum('unit_default',['igd','rawat-jalan'])->default(null);
+            $table->enum('unit',['rawat-inap','rawat-jalan'])->default(null);
             $table->dateTime('tanggal_peminjaman');
             $table->dateTime('tanggal_pengembalian');
             $table->enum('status_pengembalian',['pending','sukses','terlambat']);

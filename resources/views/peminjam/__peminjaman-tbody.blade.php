@@ -23,31 +23,29 @@
         @endif
         {{-- jika rawat inap set tangggal pulang  --}}
     @else
-        @if ($item->unit == 'rawat-inap')
-            @if ($item->tanggal_pengembalian == null)
-                @if (Auth::user()->role == 'petugas-peminjam')
-                    <a href="#" data-modal-target="settanggal-modal" data-modal-toggle="settanggal-modal" data-id="{{ $item->id }}" class="bg-yellow-100 cursor-pointer text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300 settanggal-modal">Set Tanggal Pulang</a>
+        @if ($item->unit_default == 'igd')
+            @if ($item->unit == 'rawat-inap')
+                @if ($item->tanggal_pengembalian == null)
+                    @if (Auth::user()->role == 'petugas-peminjam')
+                        <a href="#" data-modal-target="settanggal-modal" data-modal-toggle="settanggal-modal" data-id="{{ $item->id }}" class="bg-yellow-100 cursor-pointer text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300 settanggal-modal">Set Tanggal Pulang</a>
+                    @else
+                        <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Belum Set Tanggal Pulang</span>
+
+                    @endif
                 @else
-                    <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Belum Set Tanggal Pulang</span>
+                    <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ ucwords($item->status_rm) }}</span>
 
                 @endif
             @else
                 <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ ucwords($item->status_rm) }}</span>
-
             @endif
         @else
             <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{ ucwords($item->status_rm) }}</span>
-
         @endif
     @endif
 </td>
 <td class="px-4 py-3">
-    {{ ucwords(str_replace('-',' ',ucwords($item->unit))) }}
-    @if ($item->unit == 'rawat-inap')
-        - {{ $item->kamar }}
-    @else
-        - {{ $item->poli?->poli_name }}
-    @endif
+    {{ $item->unit_default != null ? $item->unit_default : '-' }} - {{ $item->unit != null ? $item->unit : '' }}
 </td>
 <td class="px-4 py-3">
     {{ ucwords($item->keperluan) }}

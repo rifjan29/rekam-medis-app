@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PoliModel;
 use App\Models\RekamMedisModel;
 use Carbon\Carbon;
 use Exception;
@@ -28,7 +27,6 @@ class RekamMedisController extends Controller
 
         $title = 'Delete Rekam Medis!';
         $text = "Are you sure you want to delete?";
-        $param['poli'] = PoliModel::latest()->get();
         confirmDelete($title, $text);
         return view('rekam-medis.index',$param);
     }
@@ -48,7 +46,7 @@ class RekamMedisController extends Controller
     {
         $validateData = Validator::make($request->all(),[
             'no_rm' => 'required|unique:pasien,no_rm',
-            'name' => 'required',
+            'name' => 'required|max:100',
             'tempat' => 'required',
             'tgl_lahir' => 'required',
             'no_hp' => 'required',

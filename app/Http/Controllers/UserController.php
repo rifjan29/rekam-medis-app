@@ -18,7 +18,6 @@ class UserController extends Controller
     {
         $search = $request->get('search');
         $param['title'] = 'List User';
-        $param['poli'] = PoliModel::latest()->get();
         $query = User::when($search,function($query) use ($search) {
             $query->where('name','like','%'.$search.'%')
                  ->orWhere('email','like','%'.$search.'%');
@@ -50,7 +49,6 @@ class UserController extends Controller
             'password' => 'required',
             'no_hp' => 'required',
             'roles' => 'required|not_in:0',
-            'poli' => 'required|not_in:0',
             'nip' => 'required|max:16',
         ]);
 
@@ -71,7 +69,6 @@ class UserController extends Controller
             $tambah->email = $request->get('email');
             $tambah->role = $request->get('roles');
             $tambah->no_hp = $request->get('no_hp');
-            $tambah->poli_id = $request->get('poli');
             $tambah->password = Hash::make($request->get('password'));
             $tambah->save();
 
@@ -113,7 +110,6 @@ class UserController extends Controller
             'email' => 'required',
             'no_hp' => 'required',
             'roles' => 'required|not_in:0',
-            'poli' => 'required|not_in:0'
         ]);
 
         if ($validateData->fails()) {
@@ -133,7 +129,6 @@ class UserController extends Controller
             $edit->email = $request->get('email');
             $edit->role = $request->get('roles');
             $edit->no_hp = $request->get('no_hp');
-            $edit->poli_id = $request->get('poli');
             $edit->update();
 
             alert()->warning('Perhatian','Berhasil mengganti data.');

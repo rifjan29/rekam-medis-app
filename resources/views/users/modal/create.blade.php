@@ -22,7 +22,7 @@
                     <div class="grid gap-4 grid-cols-2 sm:grid-cols-2 sm:gap-6 mb-5">
                         <div class="col-span-2 sm:col-span-2">
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIP </label>
-                            <input type="text" maxlength="16" name="nip" id="nip" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Masukkan NIP">
+                            <input type="number" maxlength="16" name="nip" id="nip" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Masukkan NIP">
                         </div>
                         <div class="col-span-2 sm:col-span-2">
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama </label>
@@ -54,16 +54,6 @@
                             <input type="hidden" name="roles" id="roles" value="{{ Auth::user()->role }}">
                         @endif
                     </div>
-                    <div class="col-span-2 sm:col-span-2" id="data_poli">
-                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Poli</label>
-                        <select id="poli" name="poli" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option value="0">Pilih Poli</option>
-                            @foreach ($poli as $item)
-                                <option value="{{ $item->id }}">{{ $item->poli_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
             </div>
             <!-- Modal footer -->
             <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">

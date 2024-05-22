@@ -32,9 +32,6 @@ Route::middleware(['auth'])->group(function () {
         // user
         Route::get('/search-user', [UserController::class, 'index'])->name('user.search');
         Route::resource('user', UserController::class);
-        // Poli
-        Route::get('/search-poli', [PoliController::class, 'index'])->name('poli.search');
-        Route::resource('poli', PoliController::class);
         // Rekam medis
         Route::get('search-medis',[RekamMedisController::class,'index'])->name('rekam-medis.search');
         Route::resource('rekam-medis',RekamMedisController::class);

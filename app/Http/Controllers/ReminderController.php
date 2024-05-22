@@ -35,11 +35,6 @@ class ReminderController extends Controller
                 foreach ($reminder as $key => $value) {
                     if ($value->status_pengembalian == 'terlambat' || $value->status_pengembalian == 'pending') {
                         if ($value->status_rm == 'dipinjam') {
-                            if ($value->unit == 'rawat-inap') {
-                                $poli = $value->kamar;
-                            }else{
-                                $poli = PoliModel::find($value->poli_id)->poli_name;
-                            }
                             $update_status = PeminjamanModel::find($value->id);
                             $update_status->status_pengembalian = 'terlambat';
                             $update_status->update();
@@ -51,15 +46,8 @@ class ReminderController extends Controller
                             $tambah_reminder->user_id = $value->user_id;
                             $tambah_reminder->save();
 
-                            // $twilio = new Client($twilioSid, $twilioToken);
-                            // $twilio->messages->create("whatsapp:+6289516325685",
-                            //     [
-                            //         "from" => 'whatsapp:'.$twilioWhatsAppNumber,
-                            //         "body" => $message,
-                            //     ]
-                            // );
-                             $curl = curl_init();
 
+                            $curl = curl_init();
                             curl_setopt_array($curl, array(
                             CURLOPT_URL => 'https://api.fonnte.com/send',
                             CURLOPT_RETURNTRANSFER => true,

@@ -41,6 +41,7 @@
             @page :first {
                 margin-top: 10mm;  /* Hanya diterapkan ke halaman pertama */
             }
+
             @media print {
                 /* Sembunyikan thead di semua halaman */
                 thead {
@@ -131,7 +132,7 @@
                                         @endif
                                     </td>
                                     <td class="px-4 py-3">
-                                        {{ ucwords($item->unit) }}
+                                        {{ $item->unit_default != null ? $item->unit_default : '-' }} - {{ $item->unit != null ? $item->unit : '' }}
                                     </td>
                                     <td class="px-4 py-3">
                                         {{ ucwords($item->keperluan) }}

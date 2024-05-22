@@ -25,9 +25,7 @@
                         <li>
                             <a href="{{ route('user.index') }}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Pengguna</a>
                         </li>
-                        <li>
-                            <a href="{{ route('poli.index') }}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Poli</a>
-                        </li>
+
                     @endif
                     <li>
                         <a href="{{ route('rekam-medis.index') }}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Rekam Medis</a>

@@ -21,7 +21,6 @@ return new class extends Migration
             $table->text('alamat')->nullable();
             $table->enum('jenis_kelamin',['l','p']);
             $table->bigInteger('user_id');
-            $table->bigInteger('poli_id');
             $table->timestamps();
         });
     }

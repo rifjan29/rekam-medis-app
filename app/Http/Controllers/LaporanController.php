@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PeminjamanModel;
 use App\Models\RekamMedisModel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class LaporanController extends Controller
@@ -12,10 +13,16 @@ class LaporanController extends Controller
         $search = $request->get('search');
         $kategori = $request->get('kategori');
         $param['title'] = 'List Laporan';
-        $query = PeminjamanModel::with('pasien','user')->when($search,function($query) use ($search) {
+        $start = Carbon::parse($request->start)->format('Y-m-d');
+        $end = Carbon::parse($request->end)->format('Y-m-d');
+        $query = PeminjamanModel::with('pasien','user')
+        ->when($search,function($query) use ($search) {
             $query
                  ->where('kode_peminjam','like','%'.$search.'%')
                  ->orWhere('kode_peminjam','like','%'.$search.'%');
+        })
+        ->when($request->get('start'), function ($query) use ($start, $end) {
+            $query->whereBetween('created_at', [$start, $end]);
         });
         if ($request->has('kategori')) {
 
@@ -26,8 +33,13 @@ class LaporanController extends Controller
         return view('laporan.index',$param);
     }
 
-    public function export() {
-        $param['data'] = PeminjamanModel::with('pasien','user')->get();
+    public function export(Request $request) {
+        $start = Carbon::parse($request->start)->format('Y-m-d');
+        $end = Carbon::parse($request->end)->format('Y-m-d');
+        $param['data'] = PeminjamanModel::with('pasien','user')
+        ->when($request->get('start'), function ($query) use ($start, $end) {
+            $query->whereBetween('created_at', [$start, $end]);
+        })->get();
         return view('laporan.pdf',$param);
     }
 

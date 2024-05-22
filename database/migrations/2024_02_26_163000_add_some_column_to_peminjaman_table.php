@@ -12,8 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('peminjaman', function (Blueprint $table) {
-            $table->bigInteger('poli_id')->nullable()->after('status_rm');
-            $table->string('kamar')->nullable()->after('poli_id');
         });
     }
 
