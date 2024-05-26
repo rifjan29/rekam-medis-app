@@ -49,7 +49,7 @@ class UserController extends Controller
             'password' => 'required',
             'no_hp' => 'required',
             'roles' => 'required|not_in:0',
-            'nip' => 'required|max:16',
+            'nip' => 'required|max:16|unique:users,nip',
         ]);
 
         if ($validateData->fails()) {

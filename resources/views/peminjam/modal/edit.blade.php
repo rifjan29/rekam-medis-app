@@ -24,7 +24,7 @@
                     <div class="grid gap-4 grid-cols-2 sm:grid-cols-2 sm:gap-6 mb-5">
                         <div class="col-span-2 sm:col-span-2 w-full">
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No RM </label>
-                            <select id="no_rm" name="no_rm" class="select-date w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <select id="no_rm_edit" name="no_rm" class="select-date w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 @foreach ($rekam_medis as $item)
                                     <option value="{{ $item->id }}">{{ $item->no_rm }} - {{ $item->nama_pasien }}</option>
                                 @endforeach
@@ -87,3 +87,15 @@
         </div>
     </div>
 </div>
+@push('js')
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+         var selectDate = $("#no_rm_edit");
+            selectDate.select2({
+                dropdownParent: $('#edit-modal'),
+                width: '100%',
+                placeholder: "Pilih No. RM",
+                allowClear: true
+            });
+    </script>
+@endpush
