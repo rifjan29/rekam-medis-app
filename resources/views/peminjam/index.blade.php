@@ -51,16 +51,9 @@
         </style>
     @endpush
     @push('js')
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-        <script>
-            var selectDate = $(".select-date");
-            selectDate.select2({
-                dropdownParent: $('#tambah-modal'),
-                width: '100%',
-                placeholder: "Pilih No. RM",
-                allowClear: true,
 
-            });
+        <script>
+
             $('.unit_igd').addClass('hidden');
             $('.unit').on('change',function() {
                 let id = $(this).val();
