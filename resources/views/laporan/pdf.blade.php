@@ -145,6 +145,23 @@
 
                         </tbody>
                     </table>
+                    <div class="content-ttd my-4">
+                        <div class="flex justify-end">
+                            <div class="">
+                                <p class="text-center p-0">Situbondo, {{ \Carbon\Carbon::parse(now())->translatedFormat('d F Y') }} </p>
+                                <div class="kolom-ttd">
+                                    <h4 class="fw-bold text-center p-0" style="font-size: 14px;">KEPALA &nbsp;</h4>
+                                    <h4 class="fw-bold text-center" style="font-size: 14px;">DINAS KESEHATAN PUSKESMAS ARJASA <br> Kab. Situbondo ,</h4>
+                                    <div class="py-4"></div>
+                                    <h4 class="fw-bold text-center " style="font-size: 14px;">
+                                        <u>(&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; )</u>
+                                    </h4>
+                                    <!-- {{-- <h4 class="fw-bold text-center" style="font-size: 14px;">Pembina Utama Madya</h4> --}} -->
+                                    <h4 class="fw-bold px-4" style="font-size: 14px;">NIP.  </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </main>
         </div>

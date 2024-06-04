@@ -52,12 +52,12 @@
                 <li>
                     <a href="{{route('peminjaman.tracer',$item->id) }}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Cetak Tracer</a>
                 </li>
-                <li>
-                    <a href="#" data-modal-target="edit-modal" data-modal-toggle="edit-modal" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white edit-data" data-id="{{ $item->id }}">Edit</a>
-                </li>
             @else
 
             @endif
+            <li>
+                <a href="#" data-modal-target="edit-modal" data-modal-toggle="edit-modal" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white edit-data" data-id="{{ $item->id }}">Edit</a>
+            </li>
         </ul>
     </div>
 </td>
