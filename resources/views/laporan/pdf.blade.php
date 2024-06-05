@@ -83,16 +83,12 @@
                             <h4>DINAS KESEHATAN </h4>
                             <h5>UPT PUSKESMAS ARJASA</h5>
                             <h5>Alamat: jl raya Banyuwangi desa lamongan kecamatan arjasa kabupaten situbondo, Situbondo 68312</h5>
-                            hr{
-                                border: none;
-                                height: 2px;
-                                background-color: black;
-                                margin: 20px 0;
-                            }
+
                             <h5>LAPORAN PEMINJAMAN dan PENGEMBALIAN REKAM MEDIS</h5>
                         </div>
                     </div>
                 </div>
+                <hr class="border-black px-5 w-10/12 mx-auto">
                 <div class="flex justify-center">
                     <button onclick="history.back()" class="flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 no-print"><i class="ti-angle-left btn-icon-prepend"></i> Kembali</button>
                 </div>
