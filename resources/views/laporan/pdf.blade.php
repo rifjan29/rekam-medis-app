@@ -80,8 +80,16 @@
                 <div class="flex justify-center">
                     <div class="text-center font-bold text-lg p-5 flex items-center content-center">
                         <div>
-                            <h4>LEMBAR LAPORAN</h4>
-                            <h5>PUSKESMAS ARJASA SITUBONDO</h5>
+                            <h4>DINAS KESEHATAN </h4>
+                            <h5>UPT PUSKESMAS ARJASA</h5>
+                            <h5>Alamat: jl raya Banyuwangi desa lamongan kecamatan arjasa kabupaten situbondo, Situbondo 68312</h5>
+                            hr{
+                                border: none;
+                                height: 2px;
+                                background-color: black;
+                                margin: 20px 0;
+                            }
+                            <h5>LAPORAN PEMINJAMAN dan PENGEMBALIAN REKAM MEDIS</h5>
                         </div>
                     </div>
                 </div>
