@@ -76,19 +76,26 @@
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             <!-- Page Content -->
             <main>
+                <div class="flex  items-center">
+                    <div class="align-items-start">
+                        <img src="{{ asset('images/bag-1.jpg') }}" alt="" class="w-1/2 mx-auto" >
+                    </div>
+                    <div class=" w-full">
+                        <div class="text-center font-bold text-lg p-5 flex items-center content-center">
+                            <div>
+                                <h4>DINAS KESEHATAN </h4>
+                                <h5>UPT PUSKESMAS ARJASA</h5>
+                                <h5>Alamat: jl raya Banyuwangi desa lamongan kecamatan arjasa kabupaten situbondo, Situbondo 68312</h5>
+                                <hr class="border-black px-5 mx-auto">
 
-                <div class="flex justify-center">
-                    <div class="text-center font-bold text-lg p-5 flex items-center content-center">
-                        <div>
-                            <h4>DINAS KESEHATAN </h4>
-                            <h5>UPT PUSKESMAS ARJASA</h5>
-                            <h5>Alamat: jl raya Banyuwangi desa lamongan kecamatan arjasa kabupaten situbondo, Situbondo 68312</h5>
-
-                            <h5>LAPORAN PEMINJAMAN dan PENGEMBALIAN REKAM MEDIS</h5>
+                                <h5>LAPORAN PEMINJAMAN dan PENGEMBALIAN REKAM MEDIS</h5>
+                            </div>
                         </div>
                     </div>
+                    <div class="align-items-end">
+                        <img src="{{ asset('images/bag-2.jpg') }}" alt="" class="w-1/5" >
+                    </div>
                 </div>
-                <hr class="border-black px-5 w-10/12 mx-auto">
                 <div class="flex justify-center">
                     <button onclick="history.back()" class="flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 no-print"><i class="ti-angle-left btn-icon-prepend"></i> Kembali</button>
                 </div>
