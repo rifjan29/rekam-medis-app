@@ -167,8 +167,8 @@
                                     <h4 class="fw-bold text-center " style="font-size: 14px;">
                                         <u>(&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; )</u>
                                     </h4>
-                                    <!-- {{-- <h4 class="fw-bold text-center" style="font-size: 14px;">Pembina Utama Madya</h4> --}} -->
-                                    <h4 class="fw-bold px-4" style="font-size: 14px;">NIP.  </h4>
+                                    <h4 class="fw-bold text-center" style="font-size: 14px;">{{ ucwords($ttd->nama) }}</h4>
+                                    <h4 class="fw-bold px-4" style="font-size: 14px;">NIP. {{ $ttd->nip }} </h4>
                                 </div>
                             </div>
                         </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PeminjamanModel;
 use App\Models\RekamMedisModel;
+use App\Models\TtdModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -40,6 +41,7 @@ class LaporanController extends Controller
         ->when($request->get('start'), function ($query) use ($start, $end) {
             $query->whereBetween('created_at', [$start, $end]);
         })->get();
+        $param['ttd'] = TtdModel::latest()->first();
         return view('laporan.pdf',$param);
     }
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\PoliController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RekamMedisController;
 use App\Http\Controllers\ReminderController;
+use App\Http\Controllers\TtdController;
 use App\Http\Controllers\UserController;
 use App\Models\RekamMedisModel;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +36,8 @@ Route::middleware(['auth'])->group(function () {
         // Rekam medis
         Route::get('search-medis',[RekamMedisController::class,'index'])->name('rekam-medis.search');
         Route::resource('rekam-medis',RekamMedisController::class);
+        // ttd
+        Route::resource('ttd',TtdController::class);
         // Peminjaman
         Route::get('cetak-tracer/{id}',[PeminjamanController::class,'cetakTracer'])->name('peminjaman.tracer');
         Route::get('cetak-tracer-pdf/{id}',[PeminjamanController::class,'cetakTracerPdf'])->name('peminjaman.tracer-pdf');
