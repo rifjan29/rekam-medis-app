@@ -37,9 +37,9 @@
                                     <td >{{ Carbon\Carbon::parse($data->pasien->tanggal_lahir)->format('d-m-Y') }}</td>
                                 </tr>
                                 <tr class="p-10">
-                                    <td width="20%" class="py-3">UNIT</td>
+                                    <td width="20%" class="py-3">DIRUJUK KE</td>
                                     <td width="1%">:</td>
-                                    <td >{{ ucwords(str_replace('-',' ', $data->unit)) }}</td>
+                                    <td >{{ ucwords(str_replace('-',' ', $data->unit_default)) }}</td>
                                 </tr>
                                 <tr class="p-10">
                                     <td width="20%" class="py-3">TANGGAL PINJAM</td>

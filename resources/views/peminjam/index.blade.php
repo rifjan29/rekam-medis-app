@@ -54,19 +54,6 @@
 
         <script>
 
-            $('.unit_igd').addClass('hidden');
-            $('.unit').on('change',function() {
-                let id = $(this).val();
-                console.log(id);
-                if (id != '0') {
-                    if (id == 'igd') {
-                        $('.unit_igd').removeClass('hidden');
-
-                    } else {
-                        $('.unit_igd').addClass('hidden');
-                    }
-                }
-            })
             $('.verifikasi-modal').on('click',function() {
                 let id = $(this).data('id');
                 $('#verifikasi-modal #id').val(id)

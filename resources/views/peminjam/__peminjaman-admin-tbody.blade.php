@@ -11,8 +11,8 @@
         <a href="#" data-modal-target="verifikasi-modal" data-modal-toggle="verifikasi-modal" data-id="{{ $item->id }}" class="bg-yellow-100 cursor-pointer text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300 verifikasi-modal">Verifikasi RM</a>
 
     @else
-        @if ($item->unit_default == 'igd')
-            @if ($item->unit == 'rawat-inap')
+        @if ($item->unit_default == 'ugd')
+            @if ($item->unit_default == 'rawat-inap')
                 @if ($item->tanggal_pengembalian == null)
                     <a href="#" data-modal-target="settanggal-modal" data-modal-toggle="settanggal-modal" data-id="{{ $item->id }}" class="bg-yellow-100 cursor-pointer text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300 settanggal-modal">Set Tanggal Pulang</a>
                 @else
@@ -27,7 +27,7 @@
     @endif
 </td>
 <td class="px-4 py-3">
-   {{ $item->unit_default != null ? $item->unit_default : '-' }} - {{ $item->unit != null ? $item->unit : '' }}
+   {{ $item->unit_default != null ? $item->unit_default : '-' }}
 </td>
 <td class="px-4 py-3">
     {{ ucwords($item->keperluan) }}

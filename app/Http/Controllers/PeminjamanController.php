@@ -81,18 +81,10 @@ class PeminjamanController extends Controller
         }
         $tanggal = $request->get('tgl_pinjam');
         $tanggal_pinjam = Carbon::parse($tanggal);
-        if ($request->has('unit')) {
-            if ($request->get('unit') == 'igd') {
-                $unit = $request->get('unit_igd');
-                if ($unit == 'rawat-inap') {
-                    $tanggal_kembali = $tanggal_pinjam->addDays(2); // Rawat inap 2x24 jam
-                } else {
-                    $tanggal_kembali = $tanggal_pinjam->addDays(1); // Rawat jalan 1x24 jam
-                }
-            }else{
-                $tanggal_kembali = $tanggal_pinjam->addDays(1); // Rawat jalan 1x24 jam
-            }
-        }else{
+        $unit = $request->get('unit');
+        if ($unit == 'rawat-inap') {
+            $tanggal_kembali = $tanggal_pinjam->addDays(2); // Rawat inap 2x24 jam
+        } else {
             $tanggal_kembali = $tanggal_pinjam->addDays(1); // Rawat jalan 1x24 jam
         }
         try {
@@ -100,7 +92,6 @@ class PeminjamanController extends Controller
             $tambah->kode_peminjam = $this->generateKode();
             $tambah->id_rm = $request->get('no_rm');
             $tambah->unit_default = $request->has('unit') ? $request->get('unit') : null;
-            $tambah->unit = $request->has('unit_igd') ? $request->get('unit_igd') : null;
             $tambah->tanggal_peminjaman = Carbon::parse($tanggal)->format('Y-m-d');
             $tambah->keperluan = $request->get('keperluan');
             $tambah->status_rm = 'pending';
@@ -114,7 +105,7 @@ class PeminjamanController extends Controller
                 $tambah->is_verifikasi = 'admin';
                 $tambah->user_id = Auth::user()->id;
             }
-            $tambah->tanggal_pengembalian = Carbon::parse($tanggal_kembali)->format('Y-m-d');
+            $tambah->tanggal_pengembalian = $tanggal_kembali->format('Y-m-d');
             $tambah->status_pengembalian = 'pending';
             $tambah->save();
             alert()->success('Sukses','Berhasil menambahkan data.');
@@ -186,7 +177,6 @@ class PeminjamanController extends Controller
             $update->kode_peminjam = $this->generateKode();
             $update->id_rm = $request->get('no_rm');
             $update->unit_default = $request->has('unit') ? $request->get('unit') : null;
-            $update->unit = $request->has('unit_igd') ? $request->get('unit_igd') : null;
             $update->tanggal_peminjaman = Carbon::parse($tanggal)->format('Y-m-d');
             $update->keperluan = $request->get('keperluan');
             $update->status_rm = 'pending';
@@ -296,14 +286,13 @@ class PeminjamanController extends Controller
         try {
             $kembali = PeminjamanModel::find($request->get('id'));
             $tanggal = Carbon::now()->translatedFormat('Y-m-d');
-            if ($kembali->unit == 'rawat-inap') {
+            if ($kembali->unit_default == 'rawat-inap') {
                 if ($kembali->tanggal_pengembalian == null) {
                     alert()->warning('gagal','Pengembalian gagal harap set tanggal pengembalian.');
                     return redirect()->route('peminjaman.index');
                 }
             }
             if ($tanggal == Carbon::parse($kembali->tanggal_pengembalian)) {
-                return 'telat';
                 $updateSukses = PeminjamanModel::find($request->get('id'));
                 $updateSukses->status_pengembalian = 'sukses';
                 $updateSukses->status_rm = 'tersedia';
@@ -356,13 +345,13 @@ class PeminjamanController extends Controller
 
     public function cetakTracer($id) {
         $param['title'] = 'Cetak Tracer';
-        $param['data'] = PeminjamanModel::with('pasien','poli')->find($id);
+        $param['data'] = PeminjamanModel::with('pasien')->find($id);
         return view('peminjam.cetak-tracer',$param);
     }
 
     public function cetakTracerPdf($id){
         $param['title'] = 'Cetak Tracer PDF     ';
-        $param['data'] = PeminjamanModel::with('pasien','poli')->find($id);
+        $param['data'] = PeminjamanModel::with('pasien')->find($id);
         return view('peminjam.cetak-tracer-pdf',$param);
     }
 }
